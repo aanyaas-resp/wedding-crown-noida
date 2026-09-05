@@ -141,14 +141,15 @@ export default function HallHero({ hall }: HallHeroProps) {
         </div>
       </div>
 
-      <div className="absolute inset-0 -z-20 bg-ink/60" />
+      {/* Lighter scrim */}
+      <div className="absolute inset-0 -z-20 bg-black/12" />
 
       <div
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[120vmax] w-[120vmax] -translate-x-1/2 -translate-y-1/2"
         style={{
           background:
-            "radial-gradient(closest-side, rgba(201,161,90,0.12), transparent 60%)",
+            "radial-gradient(closest-side, rgba(201,161,90,0.16), transparent 60%)",
         }}
       />
 
@@ -156,21 +157,21 @@ export default function HallHero({ hall }: HallHeroProps) {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            "radial-gradient(130% 95% at 50% 48%, transparent 32%, rgba(7,11,8,0.6) 76%, rgba(7,11,8,0.96) 100%)",
+            "radial-gradient(130% 95% at 50% 48%, transparent 38%, rgba(10,12,9,0.32) 78%, rgba(10,12,9,0.6) 100%)",
         }}
       />
 
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[75vh] opacity-95"
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[60vh] opacity-90"
         style={{
           background:
-            "linear-gradient(180deg, transparent 0%, rgba(7,11,8,0.8) 50%, #070b08 100%)",
+            "linear-gradient(180deg, transparent 0%, rgba(10,12,9,0.4) 55%, rgba(10,12,9,0.68) 100%)",
         }}
       />
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[45vh] opacity-85"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[30vh] opacity-70"
         style={{
-          background: "linear-gradient(0deg, transparent 0%, rgba(7,11,8,0.65) 100%)",
+          background: "linear-gradient(0deg, transparent 0%, rgba(10,12,9,0.3) 100%)",
         }}
       />
 
@@ -182,14 +183,14 @@ export default function HallHero({ hall }: HallHeroProps) {
       >
         <p
           data-hall-tag
-          className="label-eyebrow mb-6 text-gold"
+          className="hero-eyebrow-gold label-eyebrow mb-6"
           style={{ letterSpacing: "0.18em" }}
         >
           {hall.tag}
         </p>
 
         <h1
-          className="font-display text-balance text-[13vw] leading-[0.98] text-ivory sm:text-6xl md:text-7xl"
+          className="hero-text font-display text-balance text-[13vw] leading-[0.98] sm:text-6xl md:text-7xl"
           style={{ perspective: "600px" }}
         >
           {letters.map((ch, i) => (
@@ -203,11 +204,11 @@ export default function HallHero({ hall }: HallHeroProps) {
           ))}
         </h1>
 
-        <p data-hall-copy className="mx-auto mt-6 max-w-xl text-balance text-ivory-dim">
+        <p data-hall-copy className="hero-text-dim mx-auto mt-6 max-w-xl text-balance">
           {hall.copy}
         </p>
 
-        <p data-hall-copy className="mt-3 text-sm tracking-wide text-ivory-dim/80">
+        <p data-hall-copy className="hero-text-dim mt-3 text-sm tracking-wide opacity-90">
           Seating capacity: <span className="text-gold">{hall.capacity}</span>
         </p>
 

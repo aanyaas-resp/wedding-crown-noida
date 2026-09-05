@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { HiOutlineX } from "react-icons/hi";
 import { SITE } from "@/lib/data";
@@ -9,7 +10,7 @@ import { HALLS } from "@/lib/halls";
 interface ContactModalProps {
   open: boolean;
   onClose: () => void;
-  defaultHall?: string; // pass this from any hall page to auto-fill
+  defaultHall?: string;
 }
 
 export default function ContactModal({ open, onClose, defaultHall }: ContactModalProps) {
@@ -17,12 +18,15 @@ export default function ContactModal({ open, onClose, defaultHall }: ContactModa
   const panelRef = useRef<HTMLDivElement | null>(null);
   const firstFieldRef = useRef<HTMLInputElement | null>(null);
 
+  const [mounted, setMounted] = useState(false); // avoids SSR "document is not defined"
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [hall, setHall] = useState(defaultHall ?? "");
   const [eventDate, setEventDate] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => setMounted(true), []);
 
   // Open/close animation
   useEffect(() => {
@@ -49,6 +53,13 @@ export default function ContactModal({ open, onClose, defaultHall }: ContactModa
     }
   }, [open, defaultHall]);
 
+  // Restore scroll on unmount, just in case
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
   // Close on Escape
   useEffect(() => {
     if (!open) return;
@@ -59,7 +70,7 @@ export default function ContactModal({ open, onClose, defaultHall }: ContactModa
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open || !mounted) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,10 +102,11 @@ export default function ContactModal({ open, onClose, defaultHall }: ContactModa
     onClose();
   };
 
-  return (
+  return createPortal(
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] hidden items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+      style={{ height: "100dvh" }}
       role="dialog"
       aria-modal="true"
       aria-labelledby="contact-modal-title"
@@ -104,7 +116,8 @@ export default function ContactModal({ open, onClose, defaultHall }: ContactModa
     >
       <div
         ref={panelRef}
-        className="relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl border border-gold/20 bg-[#0d120e] p-6 shadow-2xl sm:p-8"
+        className="relative w-full max-w-md overflow-y-auto rounded-2xl border border-gold/25 bg-[#fbf9f3] p-6 shadow-2xl sm:p-8"
+        style={{ maxHeight: "min(90dvh, 640px)" }}
       >
         <button
           type="button"
@@ -140,7 +153,7 @@ export default function ContactModal({ open, onClose, defaultHall }: ContactModa
               onChange={(e) => setName(e.target.value)}
               autoComplete="name"
               placeholder="Your full name"
-              className="w-full rounded-lg border border-ivory/15 bg-transparent px-3 py-2.5 text-ivory outline-none focus:border-gold"
+              className="w-full rounded-lg border border-ivory-dim/25 bg-white px-3 py-2.5 text-ivory placeholder:text-ivory-dim/50 outline-none transition-colors focus:border-gold"
             />
           </div>
 
@@ -158,7 +171,7 @@ export default function ContactModal({ open, onClose, defaultHall }: ContactModa
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="10-digit mobile number"
-              className="w-full rounded-lg border border-ivory/15 bg-transparent px-3 py-2.5 text-ivory outline-none focus:border-gold"
+              className="w-full rounded-lg border border-ivory-dim/25 bg-white px-3 py-2.5 text-ivory placeholder:text-ivory-dim/50 outline-none transition-colors focus:border-gold"
             />
           </div>
 
@@ -171,7 +184,7 @@ export default function ContactModal({ open, onClose, defaultHall }: ContactModa
               name="hall"
               value={hall}
               onChange={(e) => setHall(e.target.value)}
-              className="w-full rounded-lg border border-ivory/15 bg-[#0d120e] px-3 py-2.5 text-ivory outline-none focus:border-gold"
+              className="w-full rounded-lg border border-ivory-dim/25 bg-white px-3 py-2.5 text-ivory outline-none transition-colors focus:border-gold"
             >
               <option value="">Select a hall</option>
               {HALLS.map((h) => (
@@ -192,7 +205,7 @@ export default function ContactModal({ open, onClose, defaultHall }: ContactModa
               type="date"
               value={eventDate}
               onChange={(e) => setEventDate(e.target.value)}
-              className="w-full rounded-lg border border-ivory/15 bg-transparent px-3 py-2.5 text-ivory outline-none focus:border-gold [color-scheme:dark]"
+              className="w-full rounded-lg border border-ivory-dim/25 bg-white px-3 py-2.5 text-ivory outline-none transition-colors focus:border-gold [color-scheme:light]"
             />
           </div>
 
@@ -207,12 +220,12 @@ export default function ContactModal({ open, onClose, defaultHall }: ContactModa
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Guest count, hall preference, budget..."
-              className="w-full resize-none rounded-lg border border-ivory/15 bg-transparent px-3 py-2.5 text-ivory outline-none focus:border-gold"
+              className="w-full resize-none rounded-lg border border-ivory-dim/25 bg-white px-3 py-2.5 text-ivory placeholder:text-ivory-dim/50 outline-none transition-colors focus:border-gold"
             />
           </div>
 
           {error && (
-            <p role="alert" className="text-sm text-red-400">
+            <p role="alert" className="text-sm text-red-600">
               {error}
             </p>
           )}
@@ -222,6 +235,7 @@ export default function ContactModal({ open, onClose, defaultHall }: ContactModa
           </button>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

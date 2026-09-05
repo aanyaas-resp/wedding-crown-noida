@@ -12,8 +12,13 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-sage-dim bg-ink-2">
-      <div className="container-crown grid gap-12 py-16 sm:py-20 md:grid-cols-12">
+    <footer className="relative overflow-hidden border-t border-sage-dim bg-ink-2">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-32 -top-32 h-72 w-72 rounded-full bg-gold/5 blur-3xl"
+      />
+
+      <div className="container-crown relative grid gap-12 py-16 sm:py-20 md:grid-cols-12">
         <div className="md:col-span-4">
           <p className="font-display text-2xl tracking-wide text-ivory">
             Wedding <span className="text-gold">Crown</span>
@@ -36,14 +41,14 @@ export default function Footer() {
             <a
               href="#"
               aria-label="Wedding Crown on Instagram"
-              className="flex h-10 w-10 items-center justify-center border border-sage-dim text-ivory-dim transition-colors hover:border-gold hover:text-gold"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-sage-dim text-ivory-dim transition-all duration-300 hover:-translate-y-0.5 hover:border-gold hover:bg-gold/10 hover:text-gold"
             >
               <FaInstagram size={17} />
             </a>
             <a
               href="#"
               aria-label="Wedding Crown on Facebook"
-              className="flex h-10 w-10 items-center justify-center border border-sage-dim text-ivory-dim transition-colors hover:border-gold hover:text-gold"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-sage-dim text-ivory-dim transition-all duration-300 hover:-translate-y-0.5 hover:border-gold hover:bg-gold/10 hover:text-gold"
             >
               <FaFacebookF size={16} />
             </a>
@@ -86,36 +91,52 @@ export default function Footer() {
           <p className="label-eyebrow mb-5">Contact</p>
           <ul className="flex flex-col gap-4 text-sm text-ivory-dim">
             <li>
-              <a href={SITE.phone1Href} className="flex items-start gap-3 hover:text-gold">
-                <HiOutlinePhone className="mt-0.5 shrink-0 text-gold" size={16} />
+              <a
+                href={SITE.phone1Href}
+                className="group flex items-start gap-3 hover:text-gold"
+              >
+                <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-sage-dim transition-colors duration-300 group-hover:border-gold group-hover:bg-gold/10">
+                  <HiOutlinePhone className="text-gold" size={13} />
+                </span>
                 {SITE.phone1}
               </a>
             </li>
             <li>
-              <a href={SITE.phone2Href} className="flex items-start gap-3 hover:text-gold">
-                <HiOutlinePhone className="mt-0.5 shrink-0 text-gold" size={16} />
+              <a
+                href={SITE.phone2Href}
+                className="group flex items-start gap-3 hover:text-gold"
+              >
+                <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-sage-dim transition-colors duration-300 group-hover:border-gold group-hover:bg-gold/10">
+                  <HiOutlinePhone className="text-gold" size={13} />
+                </span>
                 {SITE.phone2}
               </a>
             </li>
             <li>
-              <a href={`mailto:${SITE.email}`} className="flex items-start gap-3 hover:text-gold">
-                <HiOutlineMail className="mt-0.5 shrink-0 text-gold" size={16} />
+              <a
+                href={`mailto:${SITE.email}`}
+                className="group flex items-start gap-3 hover:text-gold"
+              >
+                <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-sage-dim transition-colors duration-300 group-hover:border-gold group-hover:bg-gold/10">
+                  <HiOutlineMail className="text-gold" size={13} />
+                </span>
                 {SITE.email}
               </a>
             </li>
             <li className="flex items-start gap-3">
-              <HiOutlineLocationMarker className="mt-0.5 shrink-0 text-gold" size={16} />
+              <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-sage-dim">
+                <HiOutlineLocationMarker className="text-gold" size={13} />
+              </span>
               {SITE.address}
             </li>
           </ul>
         </div>
       </div>
 
-      <div className="border-t border-sage-dim">
+      <div className="relative border-t border-sage-dim">
         <div className="container-crown flex flex-col items-center justify-between gap-3 py-6 text-xs text-ivory-dim sm:flex-row">
           <p>© {year} Wedding Crown. All rights reserved.</p>
           <p>
-           
             Designed &amp; developed by{" "}
             <a
               href="https://aniketwebdev.in"

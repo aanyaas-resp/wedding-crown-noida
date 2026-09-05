@@ -92,18 +92,19 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="absolute inset-0 -z-10 bg-ink/70" />
+      {/* Lighter scrim: photo more visible, text-shadow carries contrast */}
+      <div className="absolute inset-0 -z-10 bg-black/12" />
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[70vh] opacity-90"
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[60vh] opacity-90"
         style={{
           background:
-            "linear-gradient(180deg, transparent 0%, rgba(7,11,8,0.75) 55%, #070b08 100%)",
+            "linear-gradient(180deg, transparent 0%, rgba(10,12,9,0.35) 50%, rgba(10,12,9,0.65) 100%)",
         }}
       />
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[40vh] opacity-80"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[30vh] opacity-70"
         style={{
-          background: "linear-gradient(0deg, transparent 0%, rgba(7,11,8,0.6) 100%)",
+          background: "linear-gradient(0deg, transparent 0%, rgba(10,12,9,0.25) 100%)",
         }}
       />
 
@@ -112,17 +113,17 @@ export default function Hero() {
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-1/2 h-[130vmax] w-[130vmax] -translate-x-1/2 -translate-y-1/2"
         style={{
-          background: "radial-gradient(closest-side, rgba(201,161,90,0.14), transparent 60%)",
+          background: "radial-gradient(closest-side, rgba(201,161,90,0.18), transparent 60%)",
         }}
       />
 
       <div className="container-crown relative z-10 text-center">
-        <p data-hero-eyebrow className="label-eyebrow mb-6">
+        <p data-hero-eyebrow className="hero-eyebrow-gold label-eyebrow mb-6">
           {SITE.tagline}
         </p>
 
         <h1
-          className="font-display text-balance text-[13vw] leading-[0.98] text-ivory sm:text-6xl md:text-7xl lg:text-8xl"
+          className="hero-text font-display text-balance text-[13vw] leading-[0.98] sm:text-6xl md:text-7xl lg:text-8xl"
           style={{ perspective: "600px" }}
         >
           {HERO_WORDS.map((word, wi) => (
@@ -144,7 +145,7 @@ export default function Hero() {
           ))}
         </h1>
 
-        <p data-hero-sub className="mx-auto mt-7 max-w-xl text-balance text-ivory-dim">
+        <p data-hero-sub className="hero-text-dim mx-auto mt-7 max-w-xl text-balance">
           From intimate celebrations to grand weddings, Wedding Crown offers
           elegant spaces, beautiful décor and exceptional hospitality for your
           special occasions in Noida.
@@ -160,11 +161,11 @@ export default function Hero() {
             Book a Visit
           </button>
 
-<a
+          <a
             data-hero-cta
             href={SITE.phone1Href}
             aria-label="Call Wedding Crown now"
-            className="flex w-full items-center justify-center gap-2 text-sm text-ivory-dim transition-colors hover:text-gold sm:w-auto"
+            className="hero-text-dim flex w-full items-center justify-center gap-2 text-sm transition-colors hover:text-gold sm:w-auto"
           >
             <HiOutlinePhone size={18} aria-hidden="true" />
             Call Now
@@ -172,7 +173,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-xs tracking-[0.2em] text-ivory-dim/70">
+      <div className="hero-text-dim absolute bottom-8 left-1/2 -translate-x-1/2 text-xs tracking-[0.2em]">
         Sector 73, Noida
       </div>
 
