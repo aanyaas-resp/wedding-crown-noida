@@ -1,6 +1,6 @@
 "use client";
 
-import { HALLS } from "@/lib/data";
+import { HALLS } from "@/lib/halls";
 import { useReveal } from "@/app/components/hooks/useReveal";
 import { cn } from "@/lib/utils";
 
