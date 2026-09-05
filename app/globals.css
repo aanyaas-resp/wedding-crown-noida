@@ -1,0 +1,326 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: var(--font-cormorant), "Cormorant Garamond", serif;
+  --font-sans: var(--font-outfit), "Outfit", sans-serif;
+
+  --color-ink: #070b08;
+  --color-ink-2: #0b120e;
+  --color-ivory: #f4f1e9;
+  --color-ivory-dim: #cfd0c6;
+  --color-gold: #c9a15a;
+  --color-gold-2: #e4c68a;
+  --color-sage: #4b5d50;
+  --color-sage-dim: #29342c;
+
+  --ease-crown: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-sage-dim);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-ivory);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+  }
+}
+
+@layer utilities {
+  .container-crown {
+    width: 100%;
+    max-width: 78rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .container-crown {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .rule {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-sage-dim) 20%,
+      var(--color-sage-dim) 80%,
+      transparent
+    );
+  }
+
+  .grain {
+    position: relative;
+  }
+
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  .btn-gold {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.9rem 1.75rem;
+    border-radius: 2px;
+    background: var(--color-gold);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
+    transition: transform 0.4s var(--ease-crown), background 0.4s var(--ease-crown);
+  }
+
+  .btn-gold:hover {
+    background: var(--color-gold-2);
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.9rem 1.75rem;
+    border-radius: 2px;
+    border: 1px solid var(--color-ivory-dim);
+    color: var(--color-ivory);
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
+    transition: border-color 0.4s var(--ease-crown), background 0.4s var(--ease-crown);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--color-gold);
+    background: rgba(201, 161, 90, 0.08);
+  }
+
+  .label-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    color: var(--color-gold);
+    font-family: var(--font-sans);
+  }
+
+  .reveal {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* Liquid glass minimal button */
+.btn-liquid {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 0.9rem 2.4rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  color: #f6f1e7;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -1px 12px rgba(0, 0, 0, 0.25),
+    0 8px 24px rgba(0, 0, 0, 0.35);
+  transition: transform 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
+}
+
+.btn-liquid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    120deg,
+    transparent 20%,
+    rgba(201, 161, 90, 0.35) 45%,
+    transparent 65%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.7s ease;
+}
+
+.btn-liquid:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 12px rgba(0, 0, 0, 0.2),
+    0 12px 32px rgba(201, 161, 90, 0.25);
+}
+
+.btn-liquid:hover::before {
+  transform: translateX(120%);
+}
+
+.btn-liquid:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* subtle film-grain texture, layered over the vignette */
+.grain-overlay {
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 180px 180px;
+}
+/* ---------- Liquid glass minimal button (premium) ---------- */
+.btn-liquid {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 0.95rem 2.6rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  color: #f6f1e7;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -1px 14px rgba(0, 0, 0, 0.28),
+    0 10px 28px rgba(0, 0, 0, 0.4);
+  transition: background 0.35s ease, box-shadow 0.35s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-liquid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 20%,
+    rgba(201, 161, 90, 0.4) 45%,
+    transparent 65%
+  );
+  transform: translateX(-130%);
+  transition: transform 0.8s ease;
+}
+
+.btn-liquid:hover::before {
+  transform: translateX(130%);
+}
+
+.btn-liquid:hover {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    inset 0 -1px 14px rgba(0, 0, 0, 0.22),
+    0 14px 36px rgba(201, 161, 90, 0.28);
+}
+
+.btn-liquid:active {
+  transform: scale(0.97);
+}
+
+/* soft light that follows the cursor inside the button (desktop) */
+.btn-liquid-glow {
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    120px 120px at 50% 50%,
+    rgba(255, 255, 255, 0.18),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-liquid:hover .btn-liquid-glow {
+  opacity: 1;
+}
+
+/* ---------- Grain, now with a slow alive jitter ---------- */
+.grain-overlay {
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 180px 180px;
+}
+
+.grain-animated {
+  animation: grain-shift 1.4s steps(4) infinite;
+}
+
+@keyframes grain-shift {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-2%, 1%); }
+  50%  { transform: translate(1%, -2%); }
+  75%  { transform: translate(-1%, -1%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ---------- Scroll cue ---------- */
+.scroll-cue {
+  width: 1px;
+  height: 40px;
+  margin: 0 auto;
+  background: linear-gradient(
+    180deg,
+    rgba(201, 161, 90, 0.9),
+    rgba(201, 161, 90, 0)
+  );
+  animation: scroll-cue-move 1.8s ease-in-out infinite;
+}
+
+@keyframes scroll-cue-move {
+  0%   { transform: scaleY(0.3); transform-origin: top; opacity: 0.4; }
+  50%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  100% { transform: scaleY(0.3); transform-origin: top; opacity: 0.4; }
+}
