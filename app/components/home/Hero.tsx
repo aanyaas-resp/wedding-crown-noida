@@ -10,7 +10,7 @@ import ContactModal from "../Contactmodal";
 const HERO_WORDS = [
   { text: "Celebrate", gold: false },
   { text: "your", gold: false },
-  { text: "dream wedding", gold: true },
+  { text: "dream wedding", gold: false },
   { text: "with us", gold: false },
 ];
 

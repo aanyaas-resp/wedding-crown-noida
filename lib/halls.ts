@@ -51,7 +51,7 @@ export const HALLS: Hall[] = [
     tag: "Cozy Elegance for Intimate Gatherings",
     copy: "A warm, intimate hall suited for smaller ceremonies and family functions, without compromising on décor and hospitality.",
     capacity: "up to 400 guests",
-    bgImage: "/images/silver.png",
+    bgImage: "/images/silver.jpg",
     bgAlt: "Silver Hall at Wedding Crown, Sector 73, Noida",
   },
 ];

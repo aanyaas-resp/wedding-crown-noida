@@ -16,7 +16,7 @@ const GALLERY_IMAGES: Record<string, string> = {
   "Samraat Hall, dressed for a reception": "/images/samrat.jpg",
   "Mandap florals, evening setup": "/images/samrat2.jpg",
   "Baraat arrival, Royal Hall entrance": "/images/samrat3.jpg",
-  "Live counters, banquet dinner": "/images/silver.png",
+  "Live counters, banquet dinner": "/images/silver.jpg",
   "Corporate conference, Glass House": "/images/glasshouse.jpg",
   "Stage lighting, Platinum Hall": "/images/platinium.jpg",
   "Silver Hall, daylight setup": "/images/platinium2.jpg",
