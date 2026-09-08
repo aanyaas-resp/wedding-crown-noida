@@ -13,13 +13,16 @@ import { cn } from "@/lib/utils";
 // Drop your files in /public/images/gallery/ using these exact names,
 // or edit the paths below to match whatever you name them.
 const GALLERY_IMAGES: Record<string, string> = {
-  "Samraat Hall, dressed for a reception": "/images/samrat.jpg",
+  "Samrat Hall, dressed for a reception": "/images/samrat.jpg",
   "Mandap florals, evening setup": "/images/samrat2.jpg",
   "Baraat arrival, Royal Hall entrance": "/images/samrat3.jpg",
   "Live counters, banquet dinner": "/images/silver.jpg",
-  "Corporate conference, Glass House": "/images/glasshouse.jpg",
+  "Poolside Lawn, evening celebration": "/images/hero_bg.jpg",
   "Stage lighting, Platinum Hall": "/images/platinium.jpg",
   "Silver Hall, daylight setup": "/images/platinium2.jpg",
+  "Resort rooms, guest stay": "/images/hero_bg.jpg",
+  "Swimming pool, daytime view": "/images/hero_bg.jpg",
+  "Blossom Garden, outdoor setup": "/images/hero_bg.jpg",
   "Table styling, close detail": "/images/platinium3.jpg",
 };
 
@@ -235,7 +238,6 @@ function GalleryLightbox({ items, images, index, onClose, onPrev, onNext }: Gall
             fill
             sizes="100vw"
             className="object-contain"
-            priority
           />
         </div>
         <p className="max-w-lg text-balance text-center text-sm text-white/80">

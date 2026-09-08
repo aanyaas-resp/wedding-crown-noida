@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { HiOutlinePhone, HiOutlineCheckCircle } from "react-icons/hi";
 import { FaWhatsapp } from "react-icons/fa6";
 import { SITE } from "@/lib/data";
+import { HALLS } from "@/lib/halls";
 import { useReveal } from "@/app/components/hooks/useReveal";
 
 export default function Contact() {
@@ -125,11 +126,7 @@ export default function Contact() {
                     label="Preferred Hall"
                     name="hall"
                     options={[
-                      "Samraat Hall",
-                      "Platinum Hall",
-                      "Royal Hall",
-                      "Glass House",
-                      "Silver Hall",
+                      ...HALLS.map((hall) => hall.name),
                       "Not sure yet",
                     ]}
                   />

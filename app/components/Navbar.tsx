@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { HiOutlineMenu, HiOutlineX, HiOutlinePhone } from "react-icons/hi";
+import { HiOutlinePhone } from "react-icons/hi";
 import { FaWhatsapp } from "react-icons/fa6";
 import { NAV_LINKS, SITE } from "@/lib/data";
 import { cn } from "@/lib/utils";
@@ -9,14 +9,44 @@ import ContactModal from "./Contactmodal";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [activeHref, setActiveHref] = useState(NAV_LINKS[0]?.href ?? "");
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 24);
+      const doc = document.documentElement;
+      const scrollable = doc.scrollHeight - doc.clientHeight;
+      setProgress(scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Highlight the nav link for whichever section is centered in the viewport
+  useEffect(() => {
+    const sections = NAV_LINKS
+      .map((link) => document.querySelector(link.href))
+      .filter((el): el is Element => el !== null);
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const mostVisible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (mostVisible) {
+          setActiveHref(`#${mostVisible.target.id}`);
+        }
+      },
+      { rootMargin: "-40% 0px -50% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -26,7 +56,6 @@ export default function Navbar() {
     };
   }, [open]);
 
-  // Close mobile menu on Escape
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -54,17 +83,28 @@ export default function Navbar() {
         </a>
 
         <ul className="hidden items-center gap-9 md:flex">
-          {NAV_LINKS.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className="group relative text-sm text-ivory-dim transition-colors duration-300 hover:text-gold"
-              >
-                {link.label}
-                <span className="absolute -bottom-1 left-0 h-px w-0 bg-gold transition-all duration-300 ease-crown group-hover:w-full" />
-              </a>
-            </li>
-          ))}
+          {NAV_LINKS.map((link) => {
+            const isActive = link.href === activeHref;
+            return (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  className={cn(
+                    "group relative text-sm transition-colors duration-300",
+                    isActive ? "text-gold" : "text-ivory-dim hover:text-gold"
+                  )}
+                >
+                  {link.label}
+                  <span
+                    className={cn(
+                      "absolute -bottom-1 left-0 h-px bg-gold transition-all duration-300 ease-crown",
+                      isActive ? "w-full" : "w-0 group-hover:w-full"
+                    )}
+                  />
+                </a>
+              </li>
+            );
+          })}
         </ul>
 
         <div className="hidden md:block">
@@ -77,6 +117,7 @@ export default function Navbar() {
           </button>
         </div>
 
+        {/* Morphing hamburger — two bars rotate into an X instead of swapping icons */}
         <button
           type="button"
           aria-label={open ? "Close menu" : "Open menu"}
@@ -84,9 +125,29 @@ export default function Navbar() {
           className="relative flex h-11 w-11 items-center justify-center rounded-full border border-sage-dim text-ivory transition-colors hover:border-gold hover:text-gold md:hidden"
           onClick={() => setOpen((v) => !v)}
         >
-          {open ? <HiOutlineX size={22} /> : <HiOutlineMenu size={22} />}
+          <span className="relative flex h-3.5 w-5 flex-col justify-between">
+            <span
+              className={cn(
+                "h-[1.5px] w-full origin-center bg-current transition-transform duration-300 ease-crown",
+                open && "translate-y-[6.5px] rotate-45"
+              )}
+            />
+            <span
+              className={cn(
+                "h-[1.5px] w-full origin-center bg-current transition-transform duration-300 ease-crown",
+                open && "-translate-y-[6.5px] -rotate-45"
+              )}
+            />
+          </span>
         </button>
       </nav>
+
+      {/* Scroll-progress bar */}
+      <div
+        aria-hidden="true"
+        className="h-[2px] bg-gold/70 transition-[width] duration-150 ease-out"
+        style={{ width: `${progress}%` }}
+      />
 
       {/* Mobile menu — animated height + fade, no abrupt show/hide */}
       <div
@@ -106,7 +167,12 @@ export default function Navbar() {
                   <a
                     href={link.href}
                     onClick={() => setOpen(false)}
-                    className="block border-b border-sage-dim/60 py-4 text-ivory-dim transition-colors hover:text-gold"
+                    className={cn(
+                      "block border-b border-sage-dim/60 py-4 transition-colors",
+                      link.href === activeHref
+                        ? "text-gold"
+                        : "text-ivory-dim hover:text-gold"
+                    )}
                   >
                     {link.label}
                   </a>

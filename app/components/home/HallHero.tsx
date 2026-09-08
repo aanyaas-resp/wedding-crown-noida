@@ -11,9 +11,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 interface HallHeroProps {
   hall: Hall;
+  /** Only pass true for a hall section rendered above the fold on first paint. */
+  priority?: boolean;
 }
 
-export default function HallHero({ hall }: HallHeroProps) {
+export default function HallHero({ hall, priority = false }: HallHeroProps) {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const bgWrapRef = useRef<HTMLDivElement | null>(null);
   const bgImgRef = useRef<HTMLDivElement | null>(null);
@@ -24,7 +26,22 @@ export default function HallHero({ hall }: HallHeroProps) {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // ---- Entrance timeline: one orchestrated reveal, per element ----
+      // Set the "from" states here, in JS, instead of baking opacity-0 /
+      // translated positions into the JSX/CSS. That way, if this effect
+      // never runs (script error, JS disabled, slow hydration), every
+      // element is already visible in its resting position rather than
+      // permanently hidden.
+      gsap.set(
+        [
+          "[data-hall-tag]",
+          "[data-hall-letter]",
+          "[data-hall-copy]",
+          "[data-hall-cta]",
+          "[data-hall-scroll]",
+        ],
+        { clearProps: "all" }
+      );
+
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
       tl.fromTo(
@@ -134,7 +151,8 @@ export default function HallHero({ hall }: HallHeroProps) {
             src={hall.bgImage}
             alt={hall.bgAlt}
             fill
-            priority
+            priority={priority}
+            loading={priority ? undefined : "lazy"}
             className="object-cover"
             sizes="100vw"
           />
@@ -183,25 +201,36 @@ export default function HallHero({ hall }: HallHeroProps) {
       >
         <p
           data-hall-tag
-          className="hero-eyebrow-gold label-eyebrow mb-6"
+          className="hero-white label-eyebrow mb-6"
           style={{ letterSpacing: "0.18em" }}
         >
           {hall.tag}
         </p>
 
+        {/*
+          The heading is split into one <span> per letter so GSAP can
+          stagger-animate each character. That breaks screen readers,
+          which either read every letter individually or skip the
+          fragments — so the visible, animated letters are hidden from
+          assistive tech, and the full hall name is exposed once via a
+          visually-hidden node instead.
+        */}
         <h1
           className="hero-text font-display text-balance text-[13vw] leading-[0.98] sm:text-6xl md:text-7xl"
           style={{ perspective: "600px" }}
         >
-          {letters.map((ch, i) => (
-            <span
-              key={i}
-              data-hall-letter
-              className="inline-block will-change-transform"
-            >
-              {ch === " " ? "\u00A0" : ch}
-            </span>
-          ))}
+          <span className="sr-only">{hall.name}</span>
+          <span aria-hidden="true">
+            {letters.map((ch, i) => (
+              <span
+                key={i}
+                data-hall-letter
+                className="inline-block will-change-transform"
+              >
+                {ch === " " ? "\u00A0" : ch}
+              </span>
+            ))}
+          </span>
         </h1>
 
         <p data-hall-copy className="hero-text-dim mx-auto mt-6 max-w-xl text-balance">
@@ -218,7 +247,7 @@ export default function HallHero({ hall }: HallHeroProps) {
             type="button"
             data-hall-cta
             onClick={handleBtnTap}
-            className="btn-liquid relative transition-transform duration-300 hover:scale-[1.03] active:scale-95"
+            className="btn-liquid relative transition-transform duration-300 hover:scale-[1.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold active:scale-95"
           >
             <span className="btn-liquid-glow" aria-hidden="true" />
             <span className="relative z-10">Book This Hall</span>
@@ -228,7 +257,7 @@ export default function HallHero({ hall }: HallHeroProps) {
 
       <div
         data-hall-scroll
-        className="pointer-events-none absolute bottom-8 left-1/2 z-10 -translate-x-1/2 opacity-0"
+        className="pointer-events-none absolute bottom-8 left-1/2 z-10 -translate-x-1/2"
       >
         <div className="scroll-cue" />
       </div>

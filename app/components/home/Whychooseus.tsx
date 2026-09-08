@@ -28,12 +28,15 @@ export default function WhyChooseUs() {
   const ref = useReveal<HTMLDivElement>();
 
   return (
-    <section ref={ref} className="bg-ink-2 py-28 md:py-36">
+    <section id="amenities" ref={ref} className="bg-ink-2 py-28 md:py-36">
       <div className="container-crown">
         <p data-reveal className="label-eyebrow mb-5">
           Why Wedding Crown
         </p>
-        <h2 data-reveal className="font-display text-balance max-w-2xl text-4xl leading-tight text-ivory md:text-5xl">
+        <h2
+          data-reveal
+          className="font-display text-balance max-w-2xl text-4xl leading-tight text-ivory md:text-5xl"
+        >
           Everything you need for a perfect celebration
         </h2>
 
@@ -44,10 +47,16 @@ export default function WhyChooseUs() {
               <div
                 key={item}
                 data-reveal
-                className="flex flex-col gap-4 bg-ink-2 p-7 transition-colors duration-300 hover:bg-ink"
+                className="group relative flex flex-col gap-4 bg-ink-2 p-7 transition-colors duration-300 hover:bg-ink"
               >
-                <Icon size={28} className="text-gold" />
-                <span className="text-sm leading-snug text-ivory-dim">
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-0 h-px w-0 bg-gold transition-all duration-500 ease-out group-hover:w-full"
+                />
+                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gold/10 transition-colors duration-300 group-hover:bg-gold/20">
+                  <Icon size={24} className="text-gold" />
+                </span>
+                <span className="text-sm leading-snug text-ivory-dim transition-colors duration-300 group-hover:text-ivory">
                   {item}
                 </span>
               </div>
