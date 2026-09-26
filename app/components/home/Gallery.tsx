@@ -20,9 +20,9 @@ const GALLERY_IMAGES: Record<string, string> = {
   "Poolside Lawn, evening celebration": "/images/hero_bg.jpg",
   "Stage lighting, Platinum Hall": "/images/platinium.jpg",
   "Silver Hall, daylight setup": "/images/platinium2.jpg",
-  "Resort rooms, guest stay": "/images/hero_bg.jpg",
-  "Swimming pool, daytime view": "/images/hero_bg.jpg",
-  "Blossom Garden, outdoor setup": "/images/hero_bg.jpg",
+  "Resort rooms, guest stay": "/images/platinium4.jpg",
+  "Swimming pool, daytime view": "/images/royal.jpg",
+  "Blossom Garden, outdoor setup": "/images/glasshouse.jpg",
   "Table styling, close detail": "/images/platinium3.jpg",
 };
 
